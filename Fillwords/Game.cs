@@ -31,6 +31,7 @@ namespace Fillwords
         {
             try
             {
+                Fillwords.Models.Word.ResetUsedColors();
                 _currentLevel = _levelLoader.LoadLevel(levelNumber);
                 tableGrid.Controls.Clear();
                 tableGrid.RowStyles.Clear();

@@ -13,21 +13,19 @@ namespace Fillwords.Services
 
         public LevelLoader()
         {
-            // Создаем папку для уровней, если ее нет
             if (!Directory.Exists(LEVELS_FOLDER))
             {
                 Directory.CreateDirectory(LEVELS_FOLDER);
-                CreateSampleLevels(); // Создаем примеры уровней для тестирования
             }
         }
 
         public Level LoadLevel(int levelNumber)
         {
+            if (levelNumber < 1 || levelNumber > 10)
+                throw new ArgumentException("Уровень должен быть от 1 до 10");
             string filePath = GetLevelFilePath(levelNumber);
-
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"Файл уровня {levelNumber} не найден: {filePath}");
-
             try
             {
                 string[] lines = File.ReadAllLines(filePath);
@@ -111,36 +109,6 @@ namespace Fillwords.Services
             }
 
             return level;
-        }
-
-        // Метод для создания примеров уровней (для тестирования)
-        private void CreateSampleLevels()
-        {
-            // Уровень 1
-            File.WriteAllText(GetLevelFilePath(1),
-                "КОТ,ТОК,КОМ\n" +
-                "КТМ\n" +
-                "ООА\n" +
-                "ТКК");
-
-            // Уровень 2
-            File.WriteAllText(GetLevelFilePath(2),
-                "МАМА,ПАПА,СЫН,ДОЧЬ\n" +
-                "МПСД\n" +
-                "ААЫО\n" +
-                "МПНЧ\n" +
-                "ААЬЬ");
-
-            // Уровень 3
-            File.WriteAllText(GetLevelFilePath(3),
-                "ПРОГРАММА,КОД,ТЕСТ,БАГ\n" +
-                "ПКБТ\n" +
-                "РОАА\n" +
-                "ОГГГ\n" +
-                "ГДЕЕ\n" +
-                "РМАС\n" +
-                "ААТТ\n" +
-                "ММББ");
         }
     }
 }

@@ -32,29 +32,35 @@
             btnExit = new Button();
             panelMain = new Panel();
             panelLevels = new Panel();
-            flowLevels = new FlowLayoutPanel();
-            btnBack = new Button();
             lblSelectLevel = new Label();
+            btnBack = new Button();
+            flowLevels = new FlowLayoutPanel();
             panelMain.SuspendLayout();
             panelLevels.SuspendLayout();
             SuspendLayout();
             // 
             // btnPlay
             // 
-            btnPlay.Location = new Point(134, 80);
+            btnPlay.Anchor = AnchorStyles.Top;
+            btnPlay.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
+            btnPlay.Location = new Point(69, 25);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(300, 50);
+            btnPlay.Size = new Size(400, 100);
             btnPlay.TabIndex = 0;
+            btnPlay.TabStop = false;
             btnPlay.Text = "Играть";
             btnPlay.UseVisualStyleBackColor = true;
             btnPlay.Click += btnPlay_Click;
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(134, 136);
+            btnExit.Anchor = AnchorStyles.Top;
+            btnExit.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
+            btnExit.Location = new Point(69, 131);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(300, 50);
+            btnExit.Size = new Size(400, 100);
             btnExit.TabIndex = 1;
+            btnExit.TabStop = false;
             btnExit.Text = "Выход";
             btnExit.UseVisualStyleBackColor = true;
             btnExit.Click += btnExit_Click;
@@ -64,7 +70,7 @@
             panelMain.Anchor = AnchorStyles.Top;
             panelMain.Controls.Add(btnPlay);
             panelMain.Controls.Add(btnExit);
-            panelMain.Location = new Point(237, 12);
+            panelMain.Location = new Point(320, 160);
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(565, 264);
             panelMain.TabIndex = 2;
@@ -72,48 +78,54 @@
             // panelLevels
             // 
             panelLevels.Anchor = AnchorStyles.Top;
-            panelLevels.Controls.Add(flowLevels);
-            panelLevels.Controls.Add(btnBack);
             panelLevels.Controls.Add(lblSelectLevel);
-            panelLevels.Location = new Point(237, 282);
+            panelLevels.Controls.Add(btnBack);
+            panelLevels.Controls.Add(flowLevels);
+            panelLevels.Location = new Point(140, 13);
             panelLevels.Name = "panelLevels";
-            panelLevels.Size = new Size(536, 348);
+            panelLevels.Size = new Size(941, 599);
             panelLevels.TabIndex = 3;
             panelLevels.Visible = false;
-            // 
-            // flowLevels
-            // 
-            flowLevels.Location = new Point(215, 71);
-            flowLevels.Name = "flowLevels";
-            flowLevels.Size = new Size(271, 199);
-            flowLevels.TabIndex = 2;
-            // 
-            // btnBack
-            // 
-            btnBack.Location = new Point(32, 71);
-            btnBack.Name = "btnBack";
-            btnBack.Size = new Size(75, 23);
-            btnBack.TabIndex = 1;
-            btnBack.Text = "button1";
-            btnBack.UseVisualStyleBackColor = true;
             // 
             // lblSelectLevel
             // 
             lblSelectLevel.AutoSize = true;
-            lblSelectLevel.Location = new Point(69, 22);
+            lblSelectLevel.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblSelectLevel.Location = new Point(330, 8);
             lblSelectLevel.Name = "lblSelectLevel";
-            lblSelectLevel.Size = new Size(38, 15);
+            lblSelectLevel.Size = new Size(220, 25);
             lblSelectLevel.TabIndex = 0;
-            lblSelectLevel.Text = "label1";
+            lblSelectLevel.Text = "Выберите уровень";
+            // 
+            // btnBack
+            // 
+            btnBack.Dock = DockStyle.Bottom;
+            btnBack.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            btnBack.Location = new Point(0, 523);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(941, 76);
+            btnBack.TabIndex = 1;
+            btnBack.TabStop = false;
+            btnBack.Text = "Назад";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += btnBack_Click;
+            // 
+            // flowLevels
+            // 
+            flowLevels.Location = new Point(12, 39);
+            flowLevels.Name = "flowLevels";
+            flowLevels.Size = new Size(920, 436);
+            flowLevels.TabIndex = 2;
             // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(984, 561);
+            ClientSize = new Size(1184, 661);
             Controls.Add(panelLevels);
             Controls.Add(panelMain);
-            MinimumSize = new Size(1000, 600);
+            DoubleBuffered = true;
+            MinimumSize = new Size(1200, 700);
             Name = "Menu";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Филворды";

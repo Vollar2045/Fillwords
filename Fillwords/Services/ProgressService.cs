@@ -6,41 +6,34 @@ namespace Fillwords.Services
     public class ProgressService : IProgressService
     {
         private const string PROGRESS_FILE = "progress.txt";
-
         public int GetCurrentLevel()
         {
             try
             {
-                if (!ProgressExists())
-                {
-                    return 1; // Начинаем с первого уровня
-                }
-
+                if (!ProgressExists()) return 1;
                 string content = File.ReadAllText(PROGRESS_FILE).Trim();
-
-                if (int.TryParse(content, out int level) && level >= 1)
+                if (int.TryParse(content, out int level) && level >= 1 && level <= 10)
                 {
                     return level;
                 }
-
-                // Если файл поврежден, возвращаем первый уровень
                 return 1;
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"Ошибка загрузки прогресса: {ex.Message}");
                 return 1;
             }
         }
-
         public void SaveCurrentLevel(int level)
         {
             try
             {
                 if (level < 1)
                     throw new ArgumentException("Уровень не может быть меньше 1");
-
-                File.WriteAllText(PROGRESS_FILE, level.ToString());
+                int currentMaxLevel = GetCurrentLevel();
+                if (level > currentMaxLevel)
+                {
+                    File.WriteAllText(PROGRESS_FILE, level.ToString());
+                }
             }
             catch (Exception ex)
             {
@@ -48,7 +41,6 @@ namespace Fillwords.Services
                 throw;
             }
         }
-
         public void ResetProgress()
         {
             try
@@ -64,31 +56,18 @@ namespace Fillwords.Services
                 throw;
             }
         }
-
         public bool ProgressExists()
         {
             return File.Exists(PROGRESS_FILE);
         }
-
-        // Дополнительные методы для удобства
         public void CompleteLevel(int completedLevel)
         {
             int nextLevel = completedLevel + 1;
-            SaveCurrentLevel(nextLevel);
-        }
-
-        public bool IsLevelUnlocked(int levelNumber)
-        {
             int currentMaxLevel = GetCurrentLevel();
-            return levelNumber <= currentMaxLevel;
-        }
-
-        public void UnlockLevel(int levelNumber)
-        {
-            if (levelNumber > GetCurrentLevel())
+            if (nextLevel > currentMaxLevel)
             {
-                SaveCurrentLevel(levelNumber);
+                SaveCurrentLevel(nextLevel);
             }
-        }
+        }       
     }
 }

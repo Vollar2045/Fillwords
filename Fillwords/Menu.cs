@@ -27,23 +27,38 @@ namespace Fillwords
         {
             flowLevels.Controls.Clear();
             var progressService = new ProgressService();
-            int maxLevel = progressService.GetCurrentLevel();
-            for (int i = 1; i <= maxLevel; i++)
+            int maxUnlockedLevel = progressService.GetCurrentLevel();
+            for (int i = 1; i <= 10; i++)
             {
                 var btn = new Button
                 {
                     Text = $"Уровень {i}",
-                    Size = new Size(100, 50),
-                    Tag = i
+                    Size = new Size(300, 100),
+                    Tag = i,
+                    Enabled = i <= maxUnlockedLevel
                 };
+                if (i > maxUnlockedLevel)
+                {
+                    btn.BackColor = Color.MistyRose;
+                    btn.Text = $"Уровень {i}\n(заблокирован)";
+                }
                 btn.Click += (s, e) => StartLevel((int)btn.Tag);
                 flowLevels.Controls.Add(btn);
             }
         }
         private void StartLevel(int levelNumber)
         {
-            var gameForm = new Game(levelNumber); 
-            gameForm.FormClosed += (s, args) => this.Show();
+            var gameForm = new Game(levelNumber)
+            {
+                Size = this.Size,
+                Location = this.Location,
+                WindowState = this.WindowState
+            };
+            gameForm.FormClosed += (s, args) =>
+            {
+                CreateLevelButtons();
+                this.Show();
+            };
             gameForm.Show();
             this.Hide();
         }
@@ -58,6 +73,11 @@ namespace Fillwords
             {
                 Application.Exit();
             }
+        }
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            panelLevels.Visible = false;
+            panelMain.Visible = true;
         }
     }
 }

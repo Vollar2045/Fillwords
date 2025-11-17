@@ -22,9 +22,9 @@ namespace Fillwords.Controls
         private readonly Color _errorColor = Color.LightPink;
 
         // Размеры
-        private const int CELL_SIZE = 40;
+        private const int CELL_SIZE = 100;
         private const int CELL_MARGIN = 2;
-        private const int GRID_PADDING = 10;
+        private const int GRID_PADDING = 0;
 
         // Шрифт
         private readonly Font _cellFont = new Font("Arial", 14, FontStyle.Bold);
@@ -45,19 +45,16 @@ namespace Fillwords.Controls
             _currentLevel = level;
             _selectedCells.Clear();
             _isSelecting = false;
-
             CreateCells();
             SetupGridLayout();
-            Invalidate(); // Перерисовываем контрол
+            Invalidate();
         }
-
         private void CreateCells()
         {
             if (_currentLevel?.Grid == null) return;
 
             int gridSize = _currentLevel.GridSize;
             _cells = new Cell[gridSize, gridSize];
-
             for (int row = 0; row < gridSize; row++)
             {
                 for (int col = 0; col < gridSize; col++)
@@ -66,7 +63,6 @@ namespace Fillwords.Controls
                 }
             }
         }
-
         private void SetupGridLayout()
         {
             if (_currentLevel?.Grid == null) return;
@@ -76,7 +72,6 @@ namespace Fillwords.Controls
 
             this.Size = new Size(totalSize, totalSize);
         }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);

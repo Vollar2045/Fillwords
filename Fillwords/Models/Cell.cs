@@ -9,8 +9,6 @@ namespace FIllwords.Models
         public int Column { get; set; }
         public bool IsSelected { get; set; }
         public bool IsFound { get; set; }
-
-        // Для визуального оформления
         public Color BackgroundColor { get; set; } = Color.White;
         public Color TextColor { get; set; } = Color.Black;
 

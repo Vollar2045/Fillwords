@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace FIllwords.Models
+namespace Fillwords.Models
 {
     public class Cell
     {

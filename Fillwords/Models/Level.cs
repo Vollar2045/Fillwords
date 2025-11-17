@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Fillwords.Models;
 
-namespace FIllwords.Models
+namespace Fillwords.Models
 {
     public class Level
     {

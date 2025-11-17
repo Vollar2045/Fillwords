@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Fillwords.Models;
 
 namespace FIllwords.Models
 {
@@ -9,8 +10,6 @@ namespace FIllwords.Models
         public List<Word> WordsToFind { get; set; }
         public List<Word> FoundWords { get; set; }
         public int GridSize { get; set; }
-        public int HintsUsed { get; set; }
-        public int HintsAvailable { get; set; } = 3;
 
         public Level()
         {
@@ -22,6 +21,21 @@ namespace FIllwords.Models
         {
             return FoundWords.Count >= WordsToFind.Count;
         }
+
+        public void AddFoundWord(Word word)
+        {
+            if (!FoundWords.Contains(word))
+            {
+                FoundWords.Add(word);
+                word.IsFound = true;
+            }
+        }
+
+        public List<Word> GetRemainingWords()
+        {
+            return WordsToFind.FindAll(word => !word.IsFound);
+        }
+
         public bool IsValidWordSelection(List<Cell> selectedCells)
         {
             if (selectedCells == null || !selectedCells.Any())
@@ -38,27 +52,6 @@ namespace FIllwords.Models
 
             string selectedWord = new string(selectedCells.Select(c => c.Letter).ToArray());
             return WordsToFind.FirstOrDefault(w => w.Text == selectedWord && !w.IsFound);
-        }
-
-        public void AddFoundWord(Word word)
-        {
-            if (!FoundWords.Contains(word))
-            {
-                FoundWords.Add(word);
-                word.IsFound = true;
-
-                // Помечаем ячейки как найденные
-                foreach (var cell in word.Cells)
-                {
-                    cell.IsFound = true;
-                    cell.BackgroundColor = Color.LightGreen; // Можно настроить цвета
-                }
-            }
-        }
-
-        public List<Word> GetRemainingWords()
-        {
-            return WordsToFind.FindAll(word => !word.IsFound);
         }
     }
 }

@@ -70,7 +70,7 @@
             panelMain.Anchor = AnchorStyles.Top;
             panelMain.Controls.Add(btnPlay);
             panelMain.Controls.Add(btnExit);
-            panelMain.Location = new Point(320, 160);
+            panelMain.Location = new Point(325, 240);
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(565, 264);
             panelMain.TabIndex = 2;
@@ -121,11 +121,11 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1184, 661);
+            ClientSize = new Size(1184, 861);
             Controls.Add(panelLevels);
             Controls.Add(panelMain);
             DoubleBuffered = true;
-            MinimumSize = new Size(1200, 700);
+            MinimumSize = new Size(1200, 900);
             Name = "Menu";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Филворды";

@@ -80,7 +80,7 @@ namespace Fillwords.Services
             }
         }
 
-        private Point? GetFirstLetterPosition(Level level, Word word)
+        private Point? GetFirstLetterPosition(Level level, Fillwords.Models.Word word)
         {
             // Ищем первую букву слова в сетке
             char firstLetter = word.Text[0];

@@ -64,10 +64,10 @@ namespace Fillwords.Services
         {
             int nextLevel = completedLevel + 1;
             int currentMaxLevel = GetCurrentLevel();
-            if (nextLevel > currentMaxLevel)
+            if (nextLevel > currentMaxLevel && nextLevel <= 10)
             {
                 SaveCurrentLevel(nextLevel);
             }
-        }       
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace FIllwords.Models
         {
             IsSelected = false;
             IsFound = false;
-            BackgroundColor = Color.White;
+            BackgroundColor = Color.White; // Сбрасываем на белый
             TextColor = Color.Black;
         }
         public static bool AreCellsAdjacent(Cell cell1, Cell cell2)

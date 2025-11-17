@@ -22,16 +22,11 @@ namespace Fillwords
         public Game(int levelNumber) : this()
         {
             _levelNumber = levelNumber;
-            InitializeGame();
-        }
-
-        private void InitializeGame()
-        {
             _levelLoader = new LevelLoader();
             _progressService = new ProgressService();
             _hintService = new HintService();
             LoadLevel(_levelNumber);
-        }
+        }        
         private void LoadLevel(int levelNumber)
         {
             try
@@ -69,7 +64,6 @@ namespace Fillwords
         private void SetupGridSize()
         {
             if (_currentLevel == null) return;
-
             int gridSize = _currentLevel.GridSize;
             int cellSize = 100;
             int margin = 2;
@@ -83,15 +77,15 @@ namespace Fillwords
                 tableGrid.Location.Y
             );
         }
-        private void OnWordSelected(List<Cell> selectedCells)
+        private void OnWordSelected(System.Collections.Generic.List<Cell> selectedCells)
         {
             if (_currentLevel.IsValidWordSelection(selectedCells))
             {
-                var word = _currentLevel.GetWordFromSelection(selectedCells);
+                Fillwords.Models.Word word = _currentLevel.GetWordFromSelection(selectedCells);
                 if (word != null)
                 {
                     _currentLevel.AddFoundWord(word);
-                    _wordGrid.HighlightWord(word);
+                    _wordGrid.HighlightWord(selectedCells, word.FoundColor);
 
                     if (_currentLevel.IsCompleted())
                     {
@@ -104,23 +98,40 @@ namespace Fillwords
                 _wordGrid.ClearSelection();
             }
         }
-
         private void OnLevelCompleted()
         {
             _progressService.CompleteLevel(_levelNumber);
 
-            var result = MessageBox.Show(
-                $"Уровень {_levelNumber} пройден!\nПерейти к следующему уровню?",
-                "Поздравляем!",
-                MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes && _levelNumber < 10)
+            // ПРОВЕРЯЕМ ДО увеличения уровня
+            bool isLastLevel = _levelNumber >= 10;
+
+            if (isLastLevel)
             {
-                _levelNumber++;
-                ResetGameForNewLevel();
+                MessageBox.Show(
+                    "УРА! Вы прошли ВСЕ уровни игры!\nСпасибо за игру!",
+                    "Полная победа!",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
             }
             else
             {
-                this.Close();
+                var result = MessageBox.Show(
+                    $"Уровень {_levelNumber} пройден!\nПерейти к уровню {_levelNumber + 1}?",
+                    "Поздравляем!",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    _levelNumber++;
+                    ResetGameForNewLevel();
+                }
+                else
+                {
+                    this.Close();
+                }
             }
         }
         private void ResetGameForNewLevel()

@@ -1,4 +1,5 @@
-﻿using FIllwords.Models;
+﻿using Fillwords.Models;
+using FIllwords.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -13,23 +14,15 @@ namespace Fillwords.Controls
         private Cell[,] _cells;
         private List<Cell> _selectedCells;
         private bool _isSelecting;
-
-        // Цвета
         private readonly Color _normalColor = Color.White;
         private readonly Color _selectedColor = Color.LightBlue;
         private readonly Color _foundColor = Color.LightGreen;
         private readonly Color _hintColor = Color.Yellow;
         private readonly Color _errorColor = Color.LightPink;
-
-        // Размеры
         private const int CELL_SIZE = 100;
         private const int CELL_MARGIN = 2;
         private const int GRID_PADDING = 0;
-
-        // Шрифт
         private readonly Font _cellFont = new Font("Arial", 14, FontStyle.Bold);
-
-        // События
         public event Action<List<Cell>> OnWordSelected;
         public event Action<Cell> OnCellClicked;
 
@@ -45,6 +38,7 @@ namespace Fillwords.Controls
             _currentLevel = level;
             _selectedCells.Clear();
             _isSelecting = false;
+
             CreateCells();
             SetupGridLayout();
             Invalidate();
@@ -55,6 +49,7 @@ namespace Fillwords.Controls
 
             int gridSize = _currentLevel.GridSize;
             _cells = new Cell[gridSize, gridSize];
+
             for (int row = 0; row < gridSize; row++)
             {
                 for (int col = 0; col < gridSize; col++)
@@ -95,40 +90,32 @@ namespace Fillwords.Controls
             int x = GRID_PADDING + col * (CELL_SIZE + CELL_MARGIN);
             int y = GRID_PADDING + row * (CELL_SIZE + CELL_MARGIN);
             var rect = new Rectangle(x, y, CELL_SIZE, CELL_SIZE);
-
-            // Выбираем цвет ячейки
             Color bgColor = GetCellColor(cell);
-
-            // Рисуем фон
             using (var brush = new SolidBrush(bgColor))
             {
                 g.FillRectangle(brush, rect);
             }
-
-            // Рисуем рамку
             g.DrawRectangle(Pens.Black, rect);
-
-            // Рисуем букву
             var format = new StringFormat
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center
             };
-
             g.DrawString(cell.Letter.ToString(), _cellFont, Brushes.Black, rect, format);
         }
 
         private Color GetCellColor(Cell cell)
         {
-            if (cell.IsFound) return _foundColor;
-            if (_selectedCells.Contains(cell)) return _selectedColor;
+            if (cell.IsFound)
+                return cell.BackgroundColor;
+            if (_selectedCells.Contains(cell))
+                return _selectedColor;
             return _normalColor;
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-
             var cell = GetCellAtPoint(e.Location);
             if (cell != null)
             {
@@ -211,19 +198,6 @@ namespace Fillwords.Controls
                 OnWordSelected?.Invoke(_selectedCells);
             }
         }
-
-        public void HighlightWord(Word word)
-        {
-            if (word?.Cells != null)
-            {
-                foreach (var cell in word.Cells)
-                {
-                    cell.IsFound = true;
-                }
-                Invalidate();
-            }
-        }
-
         public void HighlightHint(Point position)
         {
             if (position.X >= 0 && position.X < _currentLevel.GridSize &&
@@ -241,6 +215,18 @@ namespace Fillwords.Controls
                     timer.Dispose();
                 };
                 timer.Start();
+            }
+        }
+        public void HighlightWord(List<Cell> foundCells, Color color)
+        {
+            if (foundCells != null)
+            {
+                foreach (var cell in foundCells)
+                {
+                    cell.IsFound = true;
+                    cell.BackgroundColor = color;
+                }
+                Invalidate();
             }
         }
 

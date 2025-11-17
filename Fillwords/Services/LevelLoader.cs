@@ -86,7 +86,7 @@ namespace Fillwords.Services
             var level = new Level
             {
                 LevelNumber = levelNumber,
-                WordsToFind = words.Select(w => new Word(w.Trim().ToUpper())).ToList()
+                WordsToFind = words.Select(w => new Fillwords.Models.Word(w.Trim().ToUpper())).ToList()
             };
 
             // Определяем размер сетки

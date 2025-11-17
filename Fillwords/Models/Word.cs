@@ -1,34 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using FIllwords.Models;
+using System.Drawing;
 
-namespace FIllwords.Models
+namespace Fillwords.Models
 {
     public class Word
     {
         public string Text { get; set; }
-        public List<Cell> Cells { get; set; }
         public bool IsFound { get; set; }
+        public Color FoundColor { get; set; }
 
         public Word(string text)
         {
             Text = text.ToUpper();
-            Cells = new List<Cell>();
+            FoundColor = GetRandomColor();
         }
 
-        // Проверяет, соответствует ли последовательность ячеек этому слову
-        public bool MatchesCells(List<Cell> selectedCells)
+        private Color GetRandomColor()
         {
-            if (selectedCells.Count != Text.Length)
-                return false;
+            var random = new Random();
+            var colors = new Color[]
+            {
+            Color.LightGreen, Color.LightBlue, Color.LightYellow,
+            Color.LightPink, Color.LightCoral, Color.LightSkyBlue,
+            Color.PaleGreen, Color.PaleTurquoise, Color.Plum, Color.Moccasin
+            };
+            return colors[random.Next(colors.Length)];
+        }
 
-            string selectedWord = new string(selectedCells.Select(c => c.Letter).ToArray());
+        public bool MatchesSelection(string selectedWord)
+        {
             return selectedWord == Text;
-        }
-
-        // Добавляет ячейки, составляющие слово (для проверки пересечений)
-        public void AddCell(Cell cell)
-        {
-            Cells.Add(cell);
         }
     }
 }

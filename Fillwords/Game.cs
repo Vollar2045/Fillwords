@@ -2,7 +2,6 @@ using Fillwords.Controls;
 using Fillwords.Models;
 using Fillwords.Services;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Numerics;
 using System.Windows.Forms;
@@ -100,7 +99,6 @@ namespace Fillwords
                 {
                     _currentLevel.AddFoundWord(word);
                     _wordGrid.HighlightWord(selectedCells, word.FoundColor);
-
                     if (_currentLevel.IsCompleted())
                     {
                         OnLevelCompleted();

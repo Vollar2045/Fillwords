@@ -39,8 +39,7 @@ namespace Fillwords
             };
             this.KeyPreview = true;
             LoadLevel(_levelNumber);
-        }
-        
+        }        
         private void LoadLevel(int levelNumber)
         {
             try

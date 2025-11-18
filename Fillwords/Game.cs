@@ -35,6 +35,7 @@ namespace Fillwords
                 SetHintButtonEnabled(_hintService.GetHintsAvailable(_currentLevel) > 0);
                 UpdateHintsInfo();
             };
+            this.KeyPreview = true;
             LoadLevel(_levelNumber);
         }        
         private void LoadLevel(int levelNumber)
@@ -171,7 +172,7 @@ namespace Fillwords
                     var hintCell = FindFirstLetterCell(word.Text);
                     if (hintCell != null)
                     {
-                        _hintService.UseHint(_currentLevel);
+                        _hintService.UseHint(_currentLevel, word);
                         SetHintButtonEnabled(false);
                         _hintCooldownTimer.Start();
                         _wordGrid.HighlightHint(hintCell);
@@ -179,11 +180,18 @@ namespace Fillwords
                     }
                 }
             }
+            else if (_hintService.GetHintsAvailable(_currentLevel) > 0)
+            {
+                MessageBox.Show(
+                    "Все оставшиеся слова уже были подсказаны!\nНайдите их без дополнительных подсказок.",
+                    "Подсказки закончились",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
         }
         private void SetHintButtonEnabled(bool enabled)
         {
             btnHint.Enabled = enabled;
-
             if (enabled)
             {
                 btnHint.BackColor = Color.LightYellow;
@@ -200,7 +208,6 @@ namespace Fillwords
             if (string.IsNullOrEmpty(wordText)) return null;
             char firstLetter = wordText[0];
             var possibleStartCells = new List<Cell>();
-
             for (int row = 0; row < _currentLevel.GridSize; row++)
             {
                 for (int col = 0; col < _currentLevel.GridSize; col++)
@@ -259,6 +266,14 @@ namespace Fillwords
             if (result == DialogResult.Yes)
             {
                 this.Close();
+            }
+        }
+        private void Game_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                btnMenu_Click(null, null);
+                e.Handled = true;
             }
         }
     }

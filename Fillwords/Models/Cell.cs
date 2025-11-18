@@ -11,19 +11,17 @@ namespace Fillwords.Models
         public bool IsFound { get; set; }
         public Color BackgroundColor { get; set; } = Color.White;
         public Color TextColor { get; set; } = Color.Black;
-
         public Cell(char letter, int row, int column)
         {
             Letter = letter;
             Row = row;
             Column = column;
         }
-
         public void Reset()
         {
             IsSelected = false;
             IsFound = false;
-            BackgroundColor = Color.White; // Сбрасываем на белый
+            BackgroundColor = Color.White; 
             TextColor = Color.Black;
         }
         public static bool AreCellsAdjacent(Cell cell1, Cell cell2)

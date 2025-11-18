@@ -16,7 +16,8 @@ namespace Fillwords
         public Menu()
         {
             InitializeComponent();
-        }
+            this.KeyPreview = true;            
+        }       
         private void btnPlay_Click(object sender, EventArgs e)
         {
             panelMain.Visible = false;
@@ -78,6 +79,21 @@ namespace Fillwords
         {
             panelLevels.Visible = false;
             panelMain.Visible = true;
+        }        
+        private void Menu_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                if (panelLevels.Visible)
+                {
+                    btnBack_Click(null, null);
+                }
+                else
+                {
+                    btnExit_Click(null, null);
+                }
+                e.Handled = true;
+            }
         }
     }
 }

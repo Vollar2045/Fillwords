@@ -14,7 +14,7 @@ namespace Fillwords.Controls
         private List<Cell> _selectedCells;
         private bool _isSelecting;
         private readonly Color _normalColor = Color.White;
-        private readonly Color _selectedColor = Color.LightBlue;
+        private readonly Color _selectedColor = Color.YellowGreen;
         private readonly Color _foundColor = Color.LightGreen;
         private readonly Color _hintColor = Color.DeepPink;
         private readonly Color _errorColor = Color.LightPink;
@@ -24,20 +24,17 @@ namespace Fillwords.Controls
         private readonly Font _cellFont = new Font("Arial", 14, FontStyle.Bold);
         public event Action<List<Cell>> OnWordSelected;
         public event Action<Cell> OnCellClicked;
-
         public WordGrid()
         {
             _selectedCells = new List<Cell>();
             this.DoubleBuffered = true; 
             this.BorderStyle = BorderStyle.FixedSingle;
         }
-
         public void InitializeLevel(Level level)
         {
             _currentLevel = level;
             _selectedCells.Clear();
             _isSelecting = false;
-
             CreateCells();
             SetupGridLayout();
             Invalidate();
@@ -45,10 +42,8 @@ namespace Fillwords.Controls
         private void CreateCells()
         {
             if (_currentLevel?.Grid == null) return;
-
             int gridSize = _currentLevel.GridSize;
             _cells = new Cell[gridSize, gridSize];
-
             for (int row = 0; row < gridSize; row++)
             {
                 for (int col = 0; col < gridSize; col++)
@@ -60,21 +55,16 @@ namespace Fillwords.Controls
         private void SetupGridLayout()
         {
             if (_currentLevel?.Grid == null) return;
-
             int gridSize = _currentLevel.GridSize;
             int totalSize = gridSize * (CELL_SIZE + CELL_MARGIN) + GRID_PADDING * 2;
-
             this.Size = new Size(totalSize, totalSize);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
             if (_cells == null) return;
-
             var g = e.Graphics;
             g.Clear(this.BackColor);
-
             for (int row = 0; row < _currentLevel.GridSize; row++)
             {
                 for (int col = 0; col < _currentLevel.GridSize; col++)
@@ -102,7 +92,6 @@ namespace Fillwords.Controls
             };
             g.DrawString(cell.Letter.ToString(), _cellFont, Brushes.Black, rect, format);
         }
-
         private Color GetCellColor(Cell cell)
         {
             if (cell.IsFound)
@@ -111,7 +100,6 @@ namespace Fillwords.Controls
                 return _selectedColor;
             return cell.BackgroundColor != _normalColor ? cell.BackgroundColor : _normalColor;
         }
-
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -123,7 +111,6 @@ namespace Fillwords.Controls
                 OnCellClicked?.Invoke(cell);
             }
         }
-
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -137,7 +124,6 @@ namespace Fillwords.Controls
                 }
             }
         }
-
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
@@ -148,30 +134,24 @@ namespace Fillwords.Controls
                 CompleteSelection();
             }
         }
-
         private Cell GetCellAtPoint(Point point)
         {
             if (_cells == null) return null;
-
             int col = (point.X - GRID_PADDING) / (CELL_SIZE + CELL_MARGIN);
             int row = (point.Y - GRID_PADDING) / (CELL_SIZE + CELL_MARGIN);
-
             if (row >= 0 && row < _currentLevel.GridSize &&
                 col >= 0 && col < _currentLevel.GridSize)
             {
                 return _cells[row, col];
             }
-
             return null;
         }
-
         private void StartSelection(Cell cell)
         {
             _selectedCells.Clear();
             _selectedCells.Add(cell);
             Invalidate();
         }
-
         private void AddToSelection(Cell cell)
         {
             if (!_selectedCells.Contains(cell))
@@ -180,7 +160,6 @@ namespace Fillwords.Controls
                 Invalidate();
             }
         }
-
         private bool CanAddToSelection(Cell newCell)
         {
             if (_selectedCells.Count == 0) return true;
@@ -189,7 +168,6 @@ namespace Fillwords.Controls
             return Cell.AreCellsAdjacent(lastCell, newCell) &&
                    !_selectedCells.Contains(newCell);
         }
-
         private void CompleteSelection()
         {
             if (_selectedCells.Count > 0)
@@ -205,9 +183,7 @@ namespace Fillwords.Controls
                 {
                     cell.BackgroundColor = _hintColor;
                 }
-
                 Invalidate();
-
                 var timer = new System.Windows.Forms.Timer { Interval = 2000 };
                 timer.Tick += (s, e) =>
                 {
@@ -243,13 +219,11 @@ namespace Fillwords.Controls
                 Invalidate();
             }
         }
-
         public void ClearSelection()
         {
             _selectedCells.Clear();
             Invalidate();
         }
-
         public void ResetGrid()
         {
             if (_cells != null)

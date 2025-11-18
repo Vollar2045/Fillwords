@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             btnPlay = new Button();
             btnExit = new Button();
             panelMain = new Panel();
@@ -68,6 +69,7 @@
             // panelMain
             // 
             panelMain.Anchor = AnchorStyles.Top;
+            panelMain.BackColor = Color.Transparent;
             panelMain.Controls.Add(btnPlay);
             panelMain.Controls.Add(btnExit);
             panelMain.Location = new Point(325, 240);
@@ -78,6 +80,7 @@
             // panelLevels
             // 
             panelLevels.Anchor = AnchorStyles.Top;
+            panelLevels.BackColor = Color.Aquamarine;
             panelLevels.Controls.Add(lblSelectLevel);
             panelLevels.Controls.Add(btnBack);
             panelLevels.Controls.Add(flowLevels);
@@ -91,7 +94,7 @@
             // 
             lblSelectLevel.AutoSize = true;
             lblSelectLevel.Font = new Font("Unispace", 15.7499981F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblSelectLevel.Location = new Point(330, 8);
+            lblSelectLevel.Location = new Point(369, 8);
             lblSelectLevel.Name = "lblSelectLevel";
             lblSelectLevel.Size = new Size(220, 25);
             lblSelectLevel.TabIndex = 0;
@@ -99,7 +102,13 @@
             // 
             // btnBack
             // 
+            btnBack.BackColor = Color.YellowGreen;
+            btnBack.Cursor = Cursors.Hand;
             btnBack.Dock = DockStyle.Bottom;
+            btnBack.FlatAppearance.BorderColor = Color.Purple;
+            btnBack.FlatAppearance.BorderSize = 2;
+            btnBack.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnBack.FlatStyle = FlatStyle.Flat;
             btnBack.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             btnBack.Location = new Point(0, 523);
             btnBack.Name = "btnBack";
@@ -107,7 +116,8 @@
             btnBack.TabIndex = 1;
             btnBack.TabStop = false;
             btnBack.Text = "Назад";
-            btnBack.UseVisualStyleBackColor = true;
+            btnBack.UseCompatibleTextRendering = true;
+            btnBack.UseVisualStyleBackColor = false;
             btnBack.Click += btnBack_Click;
             // 
             // flowLevels
@@ -121,14 +131,18 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.cat_coffee_chill_pond_hd_wallpaper_uhdpaper_com_324_5_j;
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(1184, 861);
             Controls.Add(panelLevels);
             Controls.Add(panelMain);
             DoubleBuffered = true;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(1200, 900);
             Name = "Menu";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Филворды";
+            KeyDown += Menu_KeyDown;
             panelMain.ResumeLayout(false);
             panelLevels.ResumeLayout(false);
             panelLevels.PerformLayout();

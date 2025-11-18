@@ -8,8 +8,6 @@ namespace Fillwords.Models
         public string Text { get; set; }
         public bool IsFound { get; set; }
         public Color FoundColor { get; set; }
-
-        // Статический список использованных цветов для уровня
         private static List<Color> _usedColors = new List<Color>();
         private static readonly Color[] _allColors = new Color[]
         {
@@ -26,40 +24,28 @@ namespace Fillwords.Models
         Color.DodgerBlue,      Color.MediumSpringGreen, Color.DeepSkyBlue,
         Color.HotPink,         Color.MediumOrchid,      Color.LawnGreen
         };
-
         public Word(string text)
         {
             Text = text.ToUpper();
             FoundColor = GetUniqueColor();
         }
-
         private Color GetUniqueColor()
         {
             var availableColors = _allColors.Except(_usedColors).ToList();
 
             if (availableColors.Count == 0)
             {
-                // Если все цвета использованы, очищаем список и начинаем заново
                 _usedColors.Clear();
                 availableColors = _allColors.ToList();
             }
-
             var random = new Random();
             var color = availableColors[random.Next(availableColors.Count)];
             _usedColors.Add(color);
-
             return color;
         }
-
-        // Метод для сброса использованных цветов (вызывай при загрузке нового уровня)
         public static void ResetUsedColors()
         {
             _usedColors.Clear();
-        }
-
-        public bool MatchesSelection(string selectedWord)
-        {
-            return selectedWord == Text;
-        }
+        }       
     }
 }

@@ -28,7 +28,6 @@ namespace Fillwords.Models
         {
             int rowDiff = Math.Abs(cell1.Row - cell2.Row);
             int colDiff = Math.Abs(cell1.Column - cell2.Column);
-
             return (rowDiff == 1 && colDiff == 0) ||
                    (rowDiff == 0 && colDiff == 1);
         }

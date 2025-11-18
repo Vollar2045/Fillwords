@@ -79,5 +79,14 @@ namespace Fillwords.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Music {
+            get {
+                return ResourceManager.GetStream("Music", resourceCulture);
+            }
+        }
     }
 }

@@ -39,6 +39,12 @@
             // btnHint
             // 
             btnHint.Anchor = AnchorStyles.Top;
+            btnHint.BackColor = Color.YellowGreen;
+            btnHint.Cursor = Cursors.Hand;
+            btnHint.FlatAppearance.BorderColor = Color.Purple;
+            btnHint.FlatAppearance.BorderSize = 2;
+            btnHint.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnHint.FlatStyle = FlatStyle.Flat;
             btnHint.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
             btnHint.Location = new Point(929, 55);
             btnHint.Name = "btnHint";
@@ -53,7 +59,9 @@
             // 
             lblLevel.Anchor = AnchorStyles.Top;
             lblLevel.AutoSize = true;
+            lblLevel.BackColor = Color.Transparent;
             lblLevel.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
+            lblLevel.ForeColor = Color.Purple;
             lblLevel.Location = new Point(12, 77);
             lblLevel.Name = "lblLevel";
             lblLevel.Size = new Size(165, 29);
@@ -66,6 +74,7 @@
             lblHints.AutoSize = true;
             lblHints.BackColor = Color.Transparent;
             lblHints.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
+            lblHints.ForeColor = Color.Purple;
             lblHints.Location = new Point(693, 77);
             lblHints.Name = "lblHints";
             lblHints.Size = new Size(219, 29);
@@ -74,7 +83,13 @@
             // 
             // btnMenu
             // 
+            btnMenu.BackColor = Color.YellowGreen;
+            btnMenu.Cursor = Cursors.Hand;
             btnMenu.Dock = DockStyle.Top;
+            btnMenu.FlatAppearance.BorderColor = Color.Purple;
+            btnMenu.FlatAppearance.BorderSize = 2;
+            btnMenu.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnMenu.FlatStyle = FlatStyle.Flat;
             btnMenu.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
             btnMenu.Location = new Point(0, 0);
             btnMenu.Name = "btnMenu";
@@ -105,6 +120,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources.cat_coffee_chill_pond_hd_wallpaper_uhdpaper_com_324_5_j;
+            BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(1184, 861);
             Controls.Add(tableGrid);
             Controls.Add(btnMenu);

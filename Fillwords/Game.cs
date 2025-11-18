@@ -4,12 +4,14 @@ using Fillwords.Services;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace Fillwords
 {
     public partial class Game : Form
-    {
+    {       
         private int _levelNumber;
         private Level _currentLevel;
         private WordGrid _wordGrid;
@@ -37,7 +39,8 @@ namespace Fillwords
             };
             this.KeyPreview = true;
             LoadLevel(_levelNumber);
-        }        
+        }
+        
         private void LoadLevel(int levelNumber)
         {
             try
@@ -194,12 +197,12 @@ namespace Fillwords
             btnHint.Enabled = enabled;
             if (enabled)
             {
-                btnHint.BackColor = Color.LightYellow;
+                btnHint.BackColor = Color.YellowGreen;
                 btnHint.ForeColor = Color.Black;
             }
             else
             {
-                btnHint.BackColor = Color.Gray;
+                btnHint.BackColor = Color.Yellow;
                 btnHint.ForeColor = Color.DarkGray;
             }
         }
@@ -275,6 +278,6 @@ namespace Fillwords
                 btnMenu_Click(null, null);
                 e.Handled = true;
             }
-        }
+        }       
     }
 }

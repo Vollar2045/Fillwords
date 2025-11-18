@@ -10,7 +10,6 @@ namespace Fillwords.Services
     {
         private const string LEVELS_FOLDER = "Levels";
         private const string LEVEL_FILE_PREFIX = "level";
-
         public LevelLoader()
         {
             if (!Directory.Exists(LEVELS_FOLDER))
@@ -18,7 +17,6 @@ namespace Fillwords.Services
                 Directory.CreateDirectory(LEVELS_FOLDER);
             }
         }
-
         public Level LoadLevel(int levelNumber)
         {
             if (levelNumber < 1 || levelNumber > 10)
@@ -36,12 +34,10 @@ namespace Fillwords.Services
                 throw new Exception($"Ошибка загрузки уровня {levelNumber}: {ex.Message}");
             }
         }
-
         public List<Level> LoadAllLevels()
         {
             var levels = new List<Level>();
             int levelNumber = 1;
-
             while (LevelExists(levelNumber))
             {
                 try
@@ -54,15 +50,12 @@ namespace Fillwords.Services
                 }
                 levelNumber++;
             }
-
             return levels;
         }
-
         public bool LevelExists(int levelNumber)
         {
             return File.Exists(GetLevelFilePath(levelNumber));
         }
-
         public int GetTotalLevelsCount()
         {
             int count = 0;
@@ -70,35 +63,26 @@ namespace Fillwords.Services
                 count++;
             return count;
         }
-
         private string GetLevelFilePath(int levelNumber)
         {
             return Path.Combine(LEVELS_FOLDER, $"{LEVEL_FILE_PREFIX}{levelNumber}.txt");
         }
-
         private Level ParseLevelFile(string[] lines, int levelNumber)
         {
             if (lines.Length < 2)
                 throw new Exception("Файл уровня должен содержать как минимум 2 строки");
-
-            // Первая строка - слова для поиска
             string[] words = lines[0].Split(',');
             var level = new Level
             {
                 LevelNumber = levelNumber,
                 WordsToFind = words.Select(w => new Fillwords.Models.Word(w.Trim().ToUpper())).ToList()
             };
-
-            // Определяем размер сетки
             int gridSize = lines.Length - 1;
             level.GridSize = gridSize;
             level.Grid = new char[gridSize, gridSize];
-
-            // Заполняем сетку из оставшихся строк
             for (int i = 1; i < lines.Length; i++)
             {
                 string line = lines[i].Trim().ToUpper();
-
                 if (line.Length != gridSize)
                     throw new Exception($"Строка {i} имеет неверную длину. Ожидается: {gridSize}, получено: {line.Length}");
 
@@ -107,7 +91,6 @@ namespace Fillwords.Services
                     level.Grid[i - 1, j] = line[j];
                 }
             }
-
             return level;
         }
     }

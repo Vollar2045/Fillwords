@@ -10,18 +10,15 @@ namespace Fillwords.Models
         public List<Word> WordsToFind { get; set; }
         public List<Word> FoundWords { get; set; }
         public int GridSize { get; set; }
-
         public Level()
         {
             WordsToFind = new List<Word>();
             FoundWords = new List<Word>();
         }
-
         public bool IsCompleted()
         {
             return FoundWords.Count >= WordsToFind.Count;
         }
-
         public void AddFoundWord(Word word)
         {
             if (!FoundWords.Contains(word))
@@ -30,12 +27,10 @@ namespace Fillwords.Models
                 word.IsFound = true;
             }
         }
-
         public List<Word> GetRemainingWords()
         {
             return WordsToFind.FindAll(word => !word.IsFound);
         }
-
         public bool IsValidWordSelection(List<Cell> selectedCells)
         {
             if (selectedCells == null || !selectedCells.Any())
@@ -44,7 +39,6 @@ namespace Fillwords.Models
             string selectedWord = new string(selectedCells.Select(c => c.Letter).ToArray());
             return WordsToFind.Any(w => w.Text == selectedWord && !w.IsFound);
         }
-
         public Word GetWordFromSelection(List<Cell> selectedCells)
         {
             if (selectedCells == null || !selectedCells.Any())

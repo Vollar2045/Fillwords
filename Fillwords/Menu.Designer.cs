@@ -43,6 +43,12 @@
             // btnPlay
             // 
             btnPlay.Anchor = AnchorStyles.Top;
+            btnPlay.BackColor = Color.YellowGreen;
+            btnPlay.Cursor = Cursors.Hand;
+            btnPlay.FlatAppearance.BorderColor = Color.Purple;
+            btnPlay.FlatAppearance.BorderSize = 2;
+            btnPlay.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnPlay.FlatStyle = FlatStyle.Flat;
             btnPlay.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
             btnPlay.Location = new Point(69, 25);
             btnPlay.Name = "btnPlay";
@@ -56,6 +62,12 @@
             // btnExit
             // 
             btnExit.Anchor = AnchorStyles.Top;
+            btnExit.BackColor = Color.YellowGreen;
+            btnExit.Cursor = Cursors.Hand;
+            btnExit.FlatAppearance.BorderColor = Color.Purple;
+            btnExit.FlatAppearance.BorderSize = 2;
+            btnExit.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
             btnExit.Location = new Point(69, 131);
             btnExit.Name = "btnExit";

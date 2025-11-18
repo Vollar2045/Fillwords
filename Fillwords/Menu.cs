@@ -8,16 +8,84 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WMPLib;
 
 namespace Fillwords
 {
     public partial class Menu : Form
     {
+        private WindowsMediaPlayer mediaPlayer;
+        private bool isMusicPlaying = false;
+        private TrackBar volumeTrackBar;
         public Menu()
         {
             InitializeComponent();
+            InitializeComponents();
+            InitializeMusic();
             this.KeyPreview = true;            
-        }       
+        }
+        private void InitializeComponents()
+        {
+            volumeTrackBar = new TrackBar()
+            {
+                Location = new Point(10, 50),
+                Size = new Size(110, 10),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left,
+                Minimum = 0,
+                Maximum = 100,
+                Value = 5,
+                BackColor = Color.YellowGreen,
+                Cursor = Cursors.Hand,
+                TabStop = false,
+                TickStyle = TickStyle.None
+            };
+            volumeTrackBar.Scroll += VolumeTrackBar_Scroll;
+            this.Controls.Add(volumeTrackBar);
+            var volumeLabel = new Label()
+            {
+                Text = "Громкость",
+                Location = new Point(0, 20),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left,
+                Font = new Font("Unispace", 16F, FontStyle.Bold | FontStyle.Italic),
+                BackColor = Color.Transparent,
+                ForeColor = Color.Purple,
+                AutoSize = true
+            };
+            this.Controls.Add(volumeLabel);
+        }
+        private void InitializeMusic()
+        {
+            try
+            {
+                mediaPlayer = new WindowsMediaPlayer();
+                string musicPath = System.IO.Path.Combine(
+                    Application.StartupPath,
+                    "music.mp3"
+                );
+                if (System.IO.File.Exists(musicPath))
+                {
+                    mediaPlayer.URL = musicPath;
+                    mediaPlayer.settings.volume = 5;
+                    mediaPlayer.settings.setMode("loop", true);
+                    mediaPlayer.controls.play();
+                }
+                else
+                {
+                    MessageBox.Show($"Файл музыки не найден: {musicPath}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка инициализации музыки: {ex.Message}");
+            }
+        }
+        private void VolumeTrackBar_Scroll(object sender, EventArgs e)
+        {
+            if (mediaPlayer != null)
+            {
+                mediaPlayer.settings.volume = volumeTrackBar.Value;
+            }
+        }
         private void btnPlay_Click(object sender, EventArgs e)
         {
             panelMain.Visible = false;
@@ -35,9 +103,16 @@ namespace Fillwords
                 {
                     Text = $"Уровень {i}",
                     Size = new Size(300, 100),
+                    Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic),
+                    BackColor = Color.YellowGreen,
+                    Cursor = Cursors.Hand,
+                    FlatStyle = FlatStyle.Flat,
                     Tag = i,
                     Enabled = i <= maxUnlockedLevel
                 };
+                btn.FlatAppearance.BorderColor = Color.Purple;
+                btn.FlatAppearance.BorderSize = 2;
+                btn.FlatAppearance.MouseDownBackColor = Color.Purple;
                 if (i > maxUnlockedLevel)
                 {
                     btn.BackColor = Color.MistyRose;
@@ -93,6 +168,14 @@ namespace Fillwords
                     btnExit_Click(null, null);
                 }
                 e.Handled = true;
+            }
+        }
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (mediaPlayer != null)
+            {
+                mediaPlayer.controls.stop();
+                mediaPlayer.close();
             }
         }
     }

@@ -28,37 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            hintButton = new Button();
-            resetLevelButton = new Button();
+            btnHint = new Button();
             lblLevel = new Label();
             lblHints = new Label();
             btnMenu = new Button();
             tableGrid = new TableLayoutPanel();
             SuspendLayout();
             // 
-            // hintButton
+            // btnHint
             // 
-            hintButton.Anchor = AnchorStyles.Top;
-            hintButton.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
-            hintButton.Location = new Point(704, 55);
-            hintButton.Name = "hintButton";
-            hintButton.Size = new Size(243, 73);
-            hintButton.TabIndex = 1;
-            hintButton.TabStop = false;
-            hintButton.Text = "Подсказка";
-            hintButton.UseVisualStyleBackColor = true;
-            // 
-            // resetLevelButton
-            // 
-            resetLevelButton.Anchor = AnchorStyles.Top;
-            resetLevelButton.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
-            resetLevelButton.Location = new Point(213, 55);
-            resetLevelButton.Name = "resetLevelButton";
-            resetLevelButton.Size = new Size(243, 73);
-            resetLevelButton.TabIndex = 2;
-            resetLevelButton.TabStop = false;
-            resetLevelButton.Text = "Уровень заново";
-            resetLevelButton.UseVisualStyleBackColor = true;
+            btnHint.Anchor = AnchorStyles.Top;
+            btnHint.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
+            btnHint.Location = new Point(929, 55);
+            btnHint.Name = "btnHint";
+            btnHint.Size = new Size(243, 73);
+            btnHint.TabIndex = 1;
+            btnHint.TabStop = false;
+            btnHint.Text = "Подсказка";
+            btnHint.UseVisualStyleBackColor = true;
+            btnHint.Click += btnHint_Click;
             // 
             // lblLevel
             // 
@@ -75,8 +63,9 @@
             // 
             lblHints.Anchor = AnchorStyles.Top;
             lblHints.AutoSize = true;
+            lblHints.BackColor = Color.Transparent;
             lblHints.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
-            lblHints.Location = new Point(953, 77);
+            lblHints.Location = new Point(693, 77);
             lblHints.Name = "lblHints";
             lblHints.Size = new Size(219, 29);
             lblHints.TabIndex = 6;
@@ -120,8 +109,7 @@
             Controls.Add(btnMenu);
             Controls.Add(lblHints);
             Controls.Add(lblLevel);
-            Controls.Add(resetLevelButton);
-            Controls.Add(hintButton);
+            Controls.Add(btnHint);
             DoubleBuffered = true;
             MinimumSize = new Size(1200, 900);
             Name = "Game";
@@ -132,8 +120,7 @@
         }
 
         #endregion
-        private Button hintButton;
-        private Button resetLevelButton;
+        private Button btnHint;
         private Label lblLevel;
         private Label lblHints;
         private Button btnMenu;

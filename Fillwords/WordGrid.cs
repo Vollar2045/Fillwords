@@ -1,5 +1,4 @@
 ﻿using Fillwords.Models;
-using Fillwords.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,7 +16,7 @@ namespace Fillwords.Controls
         private readonly Color _normalColor = Color.White;
         private readonly Color _selectedColor = Color.LightBlue;
         private readonly Color _foundColor = Color.LightGreen;
-        private readonly Color _hintColor = Color.Yellow;
+        private readonly Color _hintColor = Color.DeepPink;
         private readonly Color _errorColor = Color.LightPink;
         private const int CELL_SIZE = 100;
         private const int CELL_MARGIN = 2;
@@ -110,7 +109,7 @@ namespace Fillwords.Controls
                 return cell.BackgroundColor;
             if (_selectedCells.Contains(cell))
                 return _selectedColor;
-            return _normalColor;
+            return cell.BackgroundColor != _normalColor ? cell.BackgroundColor : _normalColor;
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
@@ -198,24 +197,39 @@ namespace Fillwords.Controls
                 OnWordSelected?.Invoke(_selectedCells);
             }
         }
-        public void HighlightHint(Point position)
+        public void HighlightHint(Cell cell)
         {
-            if (position.X >= 0 && position.X < _currentLevel.GridSize &&
-                position.Y >= 0 && position.Y < _currentLevel.GridSize)
+            if (cell != null)
             {
-                var cell = _cells[position.Y, position.X];
-                cell.BackgroundColor = _hintColor;
+                if (!cell.IsFound)
+                {
+                    cell.BackgroundColor = _hintColor;
+                }
+
                 Invalidate();
+
                 var timer = new System.Windows.Forms.Timer { Interval = 2000 };
                 timer.Tick += (s, e) =>
                 {
-                    cell.BackgroundColor = _normalColor;
-                    Invalidate();
+                    if (!cell.IsFound)
+                    {
+                        cell.BackgroundColor = _normalColor;
+                        Invalidate();
+                    }
                     timer.Stop();
                     timer.Dispose();
                 };
                 timer.Start();
             }
+        }
+        public Cell GetCellAtPosition(int row, int col)
+        {
+            if (_cells != null && row >= 0 && row < _currentLevel.GridSize &&
+                col >= 0 && col < _currentLevel.GridSize)
+            {
+                return _cells[row, col];
+            }
+            return null;
         }
         public void HighlightWord(List<Cell> foundCells, Color color)
         {
@@ -247,6 +261,6 @@ namespace Fillwords.Controls
                 _selectedCells.Clear();
                 Invalidate();
             }
-        }
+        }       
     }
 }

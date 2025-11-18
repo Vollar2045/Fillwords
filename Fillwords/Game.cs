@@ -1,7 +1,8 @@
 using Fillwords.Controls;
-using Fillwords.Services;
 using Fillwords.Models;
+using Fillwords.Services;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -15,6 +16,7 @@ namespace Fillwords
         private LevelLoader _levelLoader;
         private ProgressService _progressService;
         private HintService _hintService;
+        private System.Windows.Forms.Timer _hintCooldownTimer;
         public Game()
         {
             InitializeComponent();
@@ -25,6 +27,14 @@ namespace Fillwords
             _levelLoader = new LevelLoader();
             _progressService = new ProgressService();
             _hintService = new HintService();
+            _hintCooldownTimer = new System.Windows.Forms.Timer();
+            _hintCooldownTimer.Interval = 2000;
+            _hintCooldownTimer.Tick += (s, e) =>
+            {
+                _hintCooldownTimer.Stop();
+                SetHintButtonEnabled(_hintService.GetHintsAvailable(_currentLevel) > 0);
+                UpdateHintsInfo();
+            };
             LoadLevel(_levelNumber);
         }        
         private void LoadLevel(int levelNumber)
@@ -33,6 +43,7 @@ namespace Fillwords
             {
                 Fillwords.Models.Word.ResetUsedColors();
                 _currentLevel = _levelLoader.LoadLevel(levelNumber);
+                _hintService.ResetHintsForLevel(_currentLevel);
                 tableGrid.Controls.Clear();
                 tableGrid.RowStyles.Clear();
                 tableGrid.ColumnStyles.Clear();
@@ -53,7 +64,6 @@ namespace Fillwords
                 _wordGrid.OnWordSelected += OnWordSelected;
                 UpdateLevelInfo();
                 UpdateHintsInfo();
-
                 this.Text = $"Филворды - Уровень {_levelNumber}";
             }
             catch (Exception ex)
@@ -102,10 +112,7 @@ namespace Fillwords
         private void OnLevelCompleted()
         {
             _progressService.CompleteLevel(_levelNumber);
-
-            // ПРОВЕРЯЕМ ДО увеличения уровня
             bool isLastLevel = _levelNumber >= 10;
-
             if (isLastLevel)
             {
                 MessageBox.Show(
@@ -123,7 +130,6 @@ namespace Fillwords
                     "Поздравляем!",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
-
                 if (result == DialogResult.Yes)
                 {
                     _levelNumber++;
@@ -141,41 +147,107 @@ namespace Fillwords
             _wordGrid = null;
             LoadLevel(_levelNumber);
         }
-
         private void UpdateLevelInfo()
         {
             lblLevel.Text = $"Уровень: {_levelNumber}";
         }
-
         private void UpdateHintsInfo()
         {
             int hintsAvailable = _hintService.GetHintsAvailable(_currentLevel);
             lblHints.Text = $"Подсказки: {hintsAvailable}/3";
-            hintButton.Enabled = hintsAvailable > 0 && _currentLevel.GetRemainingWords().Any();
+            bool canUseHint = hintsAvailable > 0 && _currentLevel.GetRemainingWords().Any();
+            if (!_hintCooldownTimer.Enabled) 
+            {
+                SetHintButtonEnabled(canUseHint);
+            }
         }
-
         private void btnHint_Click(object sender, EventArgs e)
         {
-            if (_hintService.CanUseHint(_currentLevel))
+            if (_hintService.CanUseHint(_currentLevel) && !_hintCooldownTimer.Enabled)
             {
-                var hintPosition = _hintService.GetHint(_currentLevel);
-                if (hintPosition.HasValue)
+                var word = _hintService.GetRandomUnfoundWord(_currentLevel);
+                if (word != null)
                 {
-                    _wordGrid.HighlightHint(hintPosition.Value);
-                    UpdateHintsInfo();
+                    var hintCell = FindFirstLetterCell(word.Text);
+                    if (hintCell != null)
+                    {
+                        _hintService.UseHint(_currentLevel);
+                        SetHintButtonEnabled(false);
+                        _hintCooldownTimer.Start();
+                        _wordGrid.HighlightHint(hintCell);
+                        UpdateHintsInfo();
+                    }
                 }
             }
         }
-
-        private void btnReset_Click(object sender, EventArgs e)
+        private void SetHintButtonEnabled(bool enabled)
         {
-            var result = MessageBox.Show("Начать уровень заново?", "Подтверждение",
-                                       MessageBoxButtons.YesNo);
-            if (result == DialogResult.Yes)
+            btnHint.Enabled = enabled;
+
+            if (enabled)
             {
-                tableGrid.Controls.Clear();
-                LoadLevel(_levelNumber);
+                btnHint.BackColor = Color.LightYellow;
+                btnHint.ForeColor = Color.Black;
             }
+            else
+            {
+                btnHint.BackColor = Color.Gray;
+                btnHint.ForeColor = Color.DarkGray;
+            }
+        }
+        private Cell FindFirstLetterCell(string wordText)
+        {
+            if (string.IsNullOrEmpty(wordText)) return null;
+            char firstLetter = wordText[0];
+            var possibleStartCells = new List<Cell>();
+
+            for (int row = 0; row < _currentLevel.GridSize; row++)
+            {
+                for (int col = 0; col < _currentLevel.GridSize; col++)
+                {
+                    var cell = _wordGrid.GetCellAtPosition(row, col);
+                    if (cell != null && cell.Letter == firstLetter && !cell.IsFound)
+                    {
+                        possibleStartCells.Add(cell);
+                    }
+                }
+            }
+            foreach (var cell in possibleStartCells)
+            {
+                if (CanWordStartFromCell(wordText, cell.Row, cell.Column))
+                {
+                    return cell;
+                }
+            }
+            return possibleStartCells.FirstOrDefault();
+        }
+        private bool CanWordStartFromCell(string wordText, int startRow, int startCol)
+        {
+            return DFS(wordText, 0, startRow, startCol, new bool[_currentLevel.GridSize, _currentLevel.GridSize]);
+        }
+        private bool DFS(string word, int index, int row, int col, bool[,] visited)
+        {
+            if (index >= word.Length) return true;
+            if (row < 0 || row >= _currentLevel.GridSize || col < 0 || col >= _currentLevel.GridSize)
+                return false;
+            if (visited[row, col]) return false;
+            var cell = _wordGrid.GetCellAtPosition(row, col);
+            if (cell == null || cell.Letter != word[index] || cell.IsFound)
+                return false;
+            visited[row, col] = true;
+            int[] dr = { -1, 1, 0, 0 };
+            int[] dc = { 0, 0, -1, 1 };
+            for (int i = 0; i < 4; i++)
+            {
+                int newRow = row + dr[i];
+                int newCol = col + dc[i];
+                if (DFS(word, index + 1, newRow, newCol, visited))
+                {
+                    return true;
+                }
+            }
+            visited[row, col] = false;
+            return false;
         }
         private void btnMenu_Click(object sender, EventArgs e)
         {
@@ -184,7 +256,6 @@ namespace Fillwords
                 "Подтверждение",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
-
             if (result == DialogResult.Yes)
             {
                 this.Close();

@@ -73,7 +73,6 @@ namespace Fillwords.Controls
                 }
             }
         }
-
         private void DrawCell(Graphics g, Cell cell, int row, int col)
         {
             int x = GRID_PADDING + col * (CELL_SIZE + CELL_MARGIN);

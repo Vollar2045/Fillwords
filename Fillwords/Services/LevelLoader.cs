@@ -15,6 +15,68 @@ namespace Fillwords.Services
             if (!Directory.Exists(LEVELS_FOLDER))
             {
                 Directory.CreateDirectory(LEVELS_FOLDER);
+                ExtractLevelsFromResources();
+            }
+            else
+            {
+                EnsureLevelsExist();
+            }
+        }
+
+        private void ExtractLevelsFromResources()
+        {
+            try
+            {
+                var levels = new Dictionary<string, string>
+        {
+            { "level1.txt", Properties.Resources.level1 },
+            { "level2.txt", Properties.Resources.level2 },
+            { "level3.txt", Properties.Resources.level3 },
+            { "level4.txt", Properties.Resources.level4 },
+            { "level5.txt", Properties.Resources.level5 },
+            { "level6.txt", Properties.Resources.level6 },
+            { "level7.txt", Properties.Resources.level7 },
+            { "level8.txt", Properties.Resources.level8 },
+            { "level9.txt", Properties.Resources.level9 },
+            { "level10.txt", Properties.Resources.level10 },
+        };
+                foreach (var level in levels)
+                {
+                    string filePath = Path.Combine(LEVELS_FOLDER, level.Key);
+                    File.WriteAllText(filePath, level.Value);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка извлечения уровней: {ex.Message}");
+            }
+        }
+        private void EnsureLevelsExist()
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                string levelPath = Path.Combine(LEVELS_FOLDER, $"level{i}.txt");
+                if (!File.Exists(levelPath))
+                {
+                    ExtractMissingLevel(i);
+                }
+            }
+        }
+        private void ExtractMissingLevel(int levelNumber)
+        {
+            try
+            {
+                string resourceName = $"level{levelNumber}";
+                var resourceValue = Properties.Resources.ResourceManager.GetString(resourceName);
+                if (!string.IsNullOrEmpty(resourceValue))
+                {
+                    string filePath = Path.Combine(LEVELS_FOLDER, $"level{levelNumber}.txt");
+                    File.WriteAllText(filePath, resourceValue);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка восстановления уровня {levelNumber}: {ex.Message}");
             }
         }
         public Level LoadLevel(int levelNumber)

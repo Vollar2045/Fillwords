@@ -81,6 +81,146 @@ namespace Fillwords.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на КОТ,ТОК,СОК
+        ///КТО
+        ///ОТК
+        ///СОК.
+        /// </summary>
+        internal static string level1 {
+            get {
+                return ResourceManager.GetString("level1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ПИР,МОНЕТА,ПОРТ,ЛЕС,СЕНО,РАБОТА,КОРЕНЬ
+        ///РИПМОН
+        ///ФТРОФЕ
+        ///ЛЕСПАТ
+        ///СЕКРАБ
+        ///ОНОАТО
+        ///ААРЕНЬ
+        ///.
+        /// </summary>
+        internal static string level10 {
+            get {
+                return ResourceManager.GetString("level10", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на МАМА,ПАПА,СЫН,ДОЧЬ
+        ///МПСЫ
+        ///ААПН
+        ///МААД
+        ///БЬЧО.
+        /// </summary>
+        internal static string level2 {
+            get {
+                return ResourceManager.GetString("level2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ПИК,МАССА,ГРЕК,ЛИХО
+        ///КИПМ
+        ///АССА
+        ///ГКЛИ
+        ///РЕОХ.
+        /// </summary>
+        internal static string level3 {
+            get {
+                return ResourceManager.GetString("level3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на АЗИЯ,КИТАЙ,ВОСТОК
+        ///АЗХВ
+        ///ЯИЙО
+        ///ИТАС
+        ///ККОТ
+        ///.
+        /// </summary>
+        internal static string level4 {
+            get {
+                return ResourceManager.GetString("level4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на СОЛНЦЕ,МАРС,ЗВЕЗДА,ЮПИТЕР
+        ///СМЗВЮ
+        ///ОАРЕП
+        ///ЛНСЗИ
+        ///ПЦАДТ
+        ///ЦЕАРЕ
+        ///.
+        /// </summary>
+        internal static string level5 {
+            get {
+                return ResourceManager.GetString("level5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ПАЛОЧНИК,ШЕЛКОПРЯД,ШИНШИЛЛА
+        ///ШКИНЧ
+        ///ЕЛКОО
+        ///ДЯРПЛ
+        ///ШНИША
+        ///ИЛЛАП.
+        /// </summary>
+        internal static string level6 {
+            get {
+                return ResourceManager.GetString("level6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на СЛОВА,МОЗГ,РАЗУМ,ПАМЯТЬ,МЫСЛЬ
+        ///СЛОВА
+        ///ММРАЗ
+        ///ОЫСЛУ
+        ///ЗАПЬМ
+        ///ГМЯТЬ
+        ///.
+        /// </summary>
+        internal static string level7 {
+            get {
+                return ResourceManager.GetString("level7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на РИС,ИНТЕЛЛЕКТ,ПОЛЕ,СНЕГ
+        ///РЕЛЛР
+        ///ИТПЕА
+        ///СНОКТ
+        ///КИЛЕС
+        ///ЫФГЕН.
+        /// </summary>
+        internal static string level8 {
+            get {
+                return ResourceManager.GetString("level8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ДЫМ,ЭКЗАМЕН,ПИСЬМО,КИОСК
+        ///АДЫМН
+        ///КЗАМЕ
+        ///ЙКЭПИ
+        ///КОМЬС
+        ///ИОСКП.
+        /// </summary>
+        internal static string level9 {
+            get {
+                return ResourceManager.GetString("level9", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream Music {

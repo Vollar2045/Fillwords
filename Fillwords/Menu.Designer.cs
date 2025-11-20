@@ -32,6 +32,7 @@
             btnPlay = new Button();
             btnExit = new Button();
             panelMain = new Panel();
+            btnReset = new Button();
             panelLevels = new Panel();
             lblSelectLevel = new Label();
             btnBack = new Button();
@@ -50,9 +51,9 @@
             btnPlay.FlatAppearance.MouseDownBackColor = Color.Purple;
             btnPlay.FlatStyle = FlatStyle.Flat;
             btnPlay.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
-            btnPlay.Location = new Point(69, 25);
+            btnPlay.Location = new Point(51, 25);
             btnPlay.Name = "btnPlay";
-            btnPlay.Size = new Size(400, 100);
+            btnPlay.Size = new Size(464, 100);
             btnPlay.TabIndex = 0;
             btnPlay.TabStop = false;
             btnPlay.Text = "Играть";
@@ -69,9 +70,9 @@
             btnExit.FlatAppearance.MouseDownBackColor = Color.Purple;
             btnExit.FlatStyle = FlatStyle.Flat;
             btnExit.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
-            btnExit.Location = new Point(69, 131);
+            btnExit.Location = new Point(51, 237);
             btnExit.Name = "btnExit";
-            btnExit.Size = new Size(400, 100);
+            btnExit.Size = new Size(464, 100);
             btnExit.TabIndex = 1;
             btnExit.TabStop = false;
             btnExit.Text = "Выход";
@@ -82,12 +83,32 @@
             // 
             panelMain.Anchor = AnchorStyles.Top;
             panelMain.BackColor = Color.Transparent;
+            panelMain.Controls.Add(btnReset);
             panelMain.Controls.Add(btnPlay);
             panelMain.Controls.Add(btnExit);
             panelMain.Location = new Point(325, 240);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(565, 264);
+            panelMain.Size = new Size(565, 372);
             panelMain.TabIndex = 2;
+            // 
+            // btnReset
+            // 
+            btnReset.Anchor = AnchorStyles.Top;
+            btnReset.BackColor = Color.YellowGreen;
+            btnReset.Cursor = Cursors.Hand;
+            btnReset.FlatAppearance.BorderColor = Color.Purple;
+            btnReset.FlatAppearance.BorderSize = 2;
+            btnReset.FlatAppearance.MouseDownBackColor = Color.Purple;
+            btnReset.FlatStyle = FlatStyle.Flat;
+            btnReset.Font = new Font("Unispace", 36F, FontStyle.Bold | FontStyle.Italic);
+            btnReset.Location = new Point(51, 131);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(464, 100);
+            btnReset.TabIndex = 0;
+            btnReset.TabStop = false;
+            btnReset.Text = "Сброс прогресса";
+            btnReset.UseVisualStyleBackColor = true;
+            btnReset.Click += btnReset_Click;
             // 
             // panelLevels
             // 
@@ -170,5 +191,6 @@
         private FlowLayoutPanel flowLevels;
         private Button btnBack;
         private Label lblSelectLevel;
+        private Button btnReset;
     }
 }

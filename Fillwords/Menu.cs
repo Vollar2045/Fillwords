@@ -17,11 +17,13 @@ namespace Fillwords
         private WindowsMediaPlayer mediaPlayer;
         private bool isMusicPlaying = false;
         private TrackBar volumeTrackBar;
+        private ProgressService _progressService;
         public Menu()
         {
             InitializeComponent();
             InitializeComponents();
             InitializeMusic();
+            _progressService = new ProgressService();
             this.KeyPreview = true;            
         }
         private void InitializeComponents()
@@ -158,6 +160,30 @@ namespace Fillwords
                         return;
                     }
                 }
+            }
+        }
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var result = MessageBox.Show(
+                    "Вы действительно хотите сбросить весь прогресс?\nВсе пройденные уровни будут потеряны.",
+                    "Сброс прогресса",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    _progressService.ResetProgress();                    
+                    CreateLevelButtons();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ошибка при сбросе прогресса: {ex.Message}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
         private void btnExit_Click(object sender, EventArgs e)

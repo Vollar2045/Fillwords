@@ -38,6 +38,7 @@ namespace Fillwords.Services
         {
             var levels = new List<Level>();
             int levelNumber = 1;
+            var failedLevels = new List<string>(); 
             while (LevelExists(levelNumber))
             {
                 try
@@ -46,9 +47,29 @@ namespace Fillwords.Services
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Не удалось загрузить уровень {levelNumber}: {ex.Message}");
+                    string error = $"Уровень {levelNumber}: {ex.Message}";
+                    failedLevels.Add(error);
                 }
                 levelNumber++;
+            }
+            if (failedLevels.Count > 0)
+            {
+                string errorMessage = "Не удалось загрузить следующие уровни:\n\n" +
+                                     string.Join("\n", failedLevels) +
+                                     $"\n\nУспешно загружено: {levels.Count} уровней";
+
+                MessageBox.Show(errorMessage,
+                              "Ошибки загрузки уровней",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
+            if (levels.Count == 0)
+            {
+                MessageBox.Show("Не удалось загрузить ни одного уровня",
+                              "Критическая ошибка",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+                return new List<Level>();
             }
             return levels;
         }
@@ -85,7 +106,6 @@ namespace Fillwords.Services
                 string line = lines[i].Trim().ToUpper();
                 if (line.Length != gridSize)
                     throw new Exception($"Строка {i} имеет неверную длину. Ожидается: {gridSize}, получено: {line.Length}");
-
                 for (int j = 0; j < gridSize; j++)
                 {
                     level.Grid[i - 1, j] = line[j];

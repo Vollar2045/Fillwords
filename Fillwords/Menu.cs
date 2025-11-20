@@ -124,19 +124,41 @@ namespace Fillwords
         }
         private void StartLevel(int levelNumber)
         {
-            var gameForm = new Game(levelNumber)
+            int currentLevel = levelNumber;
+            int maxAttempts = 10;
+            for (int attempt = 0; attempt < maxAttempts; attempt++)
             {
-                Size = this.Size,
-                Location = this.Location,
-                WindowState = this.WindowState
-            };
-            gameForm.FormClosed += (s, args) =>
-            {
-                CreateLevelButtons();
-                this.Show();
-            };
-            gameForm.Show();
-            this.Hide();
+                try
+                {
+                    var gameForm = new Game(currentLevel)
+                    {
+                        Size = this.Size,
+                        Location = this.Location,
+                        WindowState = this.WindowState
+                    };
+                    gameForm.FormClosed += (s, args) =>
+                    {
+                        CreateLevelButtons();
+                        this.Show();
+                    };
+                    gameForm.Show();
+                    this.Hide();
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    currentLevel++;
+                    if (attempt == maxAttempts - 1)
+                    {
+                        MessageBox.Show($"Не удалось запустить уровни с {levelNumber} по {currentLevel - 1}\n\n" +
+                                       $"Последняя ошибка: {ex.Message}",
+                                      "Ошибка запуска",
+                                      MessageBoxButtons.OK,
+                                      MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+            }
         }
         private void btnExit_Click(object sender, EventArgs e)
         {

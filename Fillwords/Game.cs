@@ -10,7 +10,7 @@ using WMPLib;
 namespace Fillwords
 {
     public partial class Game : Form
-    {       
+    {
         private int _levelNumber;
         private Level _currentLevel;
         private WordGrid _wordGrid;
@@ -38,7 +38,7 @@ namespace Fillwords
             };
             this.KeyPreview = true;
             LoadLevel(_levelNumber);
-        }        
+        }
         private void LoadLevel(int levelNumber)
         {
             try
@@ -157,7 +157,7 @@ namespace Fillwords
             int hintsAvailable = _hintService.GetHintsAvailable(_currentLevel);
             lblHints.Text = $"Подсказки: {hintsAvailable}/3";
             bool canUseHint = hintsAvailable > 0 && _currentLevel.GetRemainingWords().Any();
-            if (!_hintCooldownTimer.Enabled) 
+            if (!_hintCooldownTimer.Enabled)
             {
                 SetHintButtonEnabled(canUseHint);
             }
@@ -275,6 +275,11 @@ namespace Fillwords
                 btnMenu_Click(null, null);
                 e.Handled = true;
             }
-        }       
+        }
+
+        private void Game_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -34,6 +34,14 @@
             lblHints = new Label();
             btnMenu = new Button();
             tableGrid = new TableLayoutPanel();
+            panel1 = new Panel();
+            panel2 = new Panel();
+            panel3 = new Panel();
+            panel4 = new Panel();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // btnHint
@@ -57,12 +65,12 @@
             // 
             // lblLevel
             // 
-            lblLevel.Anchor = AnchorStyles.Top;
             lblLevel.AutoSize = true;
             lblLevel.BackColor = Color.Transparent;
+            lblLevel.Dock = DockStyle.Fill;
             lblLevel.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
             lblLevel.ForeColor = Color.Purple;
-            lblLevel.Location = new Point(12, 77);
+            lblLevel.Location = new Point(0, 0);
             lblLevel.Name = "lblLevel";
             lblLevel.Size = new Size(165, 29);
             lblLevel.TabIndex = 5;
@@ -70,12 +78,12 @@
             // 
             // lblHints
             // 
-            lblHints.Anchor = AnchorStyles.Top;
             lblHints.AutoSize = true;
             lblHints.BackColor = Color.Transparent;
+            lblHints.Dock = DockStyle.Fill;
             lblHints.Font = new Font("Unispace", 18F, FontStyle.Bold | FontStyle.Italic);
             lblHints.ForeColor = Color.Purple;
-            lblHints.Location = new Point(693, 77);
+            lblHints.Location = new Point(0, 0);
             lblHints.Name = "lblHints";
             lblHints.Size = new Size(219, 29);
             lblHints.TabIndex = 6;
@@ -116,6 +124,46 @@
             tableGrid.Size = new Size(613, 618);
             tableGrid.TabIndex = 9;
             // 
+            // panel1
+            // 
+            panel1.Anchor = AnchorStyles.Top;
+            panel1.BackColor = Color.YellowGreen;
+            panel1.Controls.Add(lblHints);
+            panel1.ForeColor = Color.Black;
+            panel1.Location = new Point(6, 3);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(228, 30);
+            panel1.TabIndex = 10;
+            // 
+            // panel2
+            // 
+            panel2.Anchor = AnchorStyles.Top;
+            panel2.BackColor = Color.Purple;
+            panel2.Controls.Add(panel1);
+            panel2.Location = new Point(685, 68);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(238, 38);
+            panel2.TabIndex = 11;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = Color.YellowGreen;
+            panel3.Controls.Add(lblLevel);
+            panel3.Location = new Point(3, 3);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(183, 30);
+            panel3.TabIndex = 12;
+            // 
+            // panel4
+            // 
+            panel4.Anchor = AnchorStyles.Top;
+            panel4.BackColor = Color.Purple;
+            panel4.Controls.Add(panel3);
+            panel4.Location = new Point(12, 68);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(189, 37);
+            panel4.TabIndex = 13;
+            // 
             // Game
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -123,10 +171,10 @@
             BackgroundImage = Properties.Resources.cat_coffee_chill_pond_hd_wallpaper_uhdpaper_com_324_5_j;
             BackgroundImageLayout = ImageLayout.Center;
             ClientSize = new Size(1184, 861);
+            Controls.Add(panel4);
+            Controls.Add(panel2);
             Controls.Add(tableGrid);
             Controls.Add(btnMenu);
-            Controls.Add(lblHints);
-            Controls.Add(lblLevel);
             Controls.Add(btnHint);
             DoubleBuffered = true;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -134,9 +182,15 @@
             Name = "Game";
             StartPosition = FormStartPosition.Manual;
             Text = "Филворды";
+            Load += Game_Load;
             KeyDown += Game_KeyDown;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
+            panel4.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -145,5 +199,9 @@
         private Label lblHints;
         private Button btnMenu;
         private TableLayoutPanel tableGrid;
+        private Panel panel1;
+        private Panel panel2;
+        private Panel panel3;
+        private Panel panel4;
     }
 }
